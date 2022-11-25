@@ -1,0 +1,193 @@
+/*Adicionar um menu no código de represetação de grafos com as opções:
+Digite:
+1 - Mostrar quantos laços tem o grafo ---
+2 - Mostrar maior grau do grafo ---
+3 - Mostrar menor grau do grafo ---
+4 - Saber se é um multigrafo ---
+5 - Saber se é um grafo Simples ---
+6 - Verificar se existe vértice isolado ---
+7 - Verificar se existe vértice folha ---
+8 - Verfiicar se é um grafo completo
+
+Tente fazer com que o programa não feche após realizar alguma das opções do menu. Ou seja, após terminar cada ação, o programa mostra o menu novamente para o usuário continuar usando.*/
+
+// grafo em C
+#include<stdio.h>
+
+int main(void){
+
+// continuar
+
+  int repeticao = 1;
+
+  while(repeticao == 1){
+  printf("\nBem-vindo!!!\n\nEste programa irá demonstrar um grafo da melhor maneira.\n\n");
+  
+  int n;
+  // tamanho do grafo
+
+  printf("Diga quantos vértices há no grafo: ");
+  scanf("%d",&n);
+  
+  //maioria das variaveis
+  int Grafo[n][n];
+  int vertices[n];
+  int i,j;
+  int tipo;
+  int lacos = 0;
+  int maiorGrau = 0;
+  int menorGrau = 10;
+  int multigrafo=0;
+  int grafoCompleto =0;
+  
+  for(i=0;i<n;i++){
+    vertices[i] = 0;
+  }
+  // contrução do grafo
+
+  for (i=0;i<n;i++){
+
+    for (j=0;j<n;j++){
+
+      Grafo[i][j] = 0;
+    }
+  }
+
+  int quantArestas;
+  int verticeA;
+  int verticeB;
+  
+// tipo do grafo
+
+  printf("\nDiga o tipo do grafo \n[1]-> Direcionado\n[2]-> Não direcionado \n");
+  scanf("%d",&tipo);
+  
+  // quantidade de arestas
+
+  printf("\nAviso:\n\nOs vertices começaram a ser contados a partir do 1, ou seja, não existe vértice 0, por favor lembre-se ao digitar.\n");
+  
+  printf("\nDiga a quantidade de arestas do Grafo: ");
+  scanf("%d",&quantArestas);
+  
+  printf("\n");
+  // construção das arestas
+
+  for(i=0;i<quantArestas;i++){
+    
+   printf("Diga de qual vértice sai a %d° aresta: ",i+1);
+   scanf("%d",&verticeA);
+   vertices[verticeA-1]++;
+
+   printf("Diga em qual vertice chega a %d° aresta: ",i+1);
+   scanf("%d",&verticeB);
+   vertices[verticeB-1]++;
+
+      // grafo direcioando
+      Grafo[verticeA-1][verticeB-1] += 1;
+      
+    
+
+      // grafo não direcioando
+      if(tipo==2 && verticeA != verticeB){
+       
+      Grafo[verticeB-1][verticeA-1] += 1;
+      
+      printf("\n");
+      }
+
+      // laço
+      if(verticeA==verticeB){
+        lacos += 1;
+        multigrafo = 1;
+      }
+      if(Grafo[verticeA][verticeB]>1){
+        multigrafo = 1;
+      }
+   
+    
+  }
+  for(i=0;i<n;i++){
+    if (vertices[i]>maiorGrau){
+      maiorGrau = vertices[i];
+    }
+    if(vertices[i]<menorGrau){
+      menorGrau = vertices[i];
+    }
+    
+  }
+
+  printf("\nMatriz de adjascencia:\n\n");
+   
+  for (i=0;i<n;i++){
+     
+  for(j=0;i<1 && j<n;j++){
+  printf("  %d",j+1); 
+     
+   if(j==n-1){
+    printf("\n");
+       }
+       }    
+     printf("%d ",i+1);
+
+     for (j=0;j<n;j++){
+      printf("%d  ",Grafo[i][j]);
+    }
+
+     printf("\n");
+  }
+
+printf("\nLista de adjascencia:\n\n");
+  
+  for ( i=0;i<n;i++){
+    printf("%d",i+1);
+
+    for(j=0;j<n;j++){
+
+      if(Grafo[i][j]>0){
+
+        printf("-> %d",j+1);
+      }
+
+    }
+    printf("\n");
+
+  }
+ 
+  printf("\nInformações do Grafo:\n\n");
+  
+  tipo == 1 ? printf("-O grafo é direcionado\n") :  printf("-O grafo não é direcionado\n");
+
+  printf("-Quantidade de laços dentro do grafo: %d\n",lacos);
+
+  printf("-Maior grau do grafo: %d\n",maiorGrau);
+  
+  printf("-Menor grau do grafo: %d\n",menorGrau);
+
+  multigrafo == 0 ? printf("-O grafo é simples\n") : printf("-O grafo é um multigrafo\n");
+
+  for(i=0;i<n;i++){
+    if(vertices[i]==0){
+      printf("-O vértice %d é isolado\n",i+1);
+    }
+    if(vertices[i]==1){
+      printf("-O vértice %d é um vértice folha\n",i+1);
+    }
+    if(vertices[i]==n-1){
+      grafoCompleto +=1;
+    }
+  }
+
+  grafoCompleto == n ? printf("-O grafo é um grafo completo. um K%d\n",n) : printf("-O grafo não é um grafo completo\n");
+
+printf("\n\nBem este é o fim do programa... mas caso queira continuar pode escolher \n[1] --> SIM!\n[0] --> não.\n");
+scanf("%d",&repeticao);
+
+printf("\n");
+}
+
+  printf("Fim...tchau até a próxima!");
+  
+  return 0;
+}
+
+
